@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	SOL_IP                           = 0x0
-	IP_ORIGDSTADDR                   = 0x14
+	SOL_IP                           = 0
+	SO_ORIGINAL_DST                   = 80	// 获取netfilter在REDIRECT之前的原始目标地址
 )
 func main() {
 	var listener net.Listener
@@ -38,7 +38,7 @@ func main() {
 			// 系统调用getsockopt获取原始目标地址
 			// 不要纳闷为啥是个IPV6调用，这是因为Golang在封装系统调用的时候不健全，用IPV6方法仅仅是因为它的IPV6结构体内存足够装下系统调用返回的数据而已
 			var ipv6Mreq *syscall.IPv6Mreq
-			if ipv6Mreq, err = syscall.GetsockoptIPv6Mreq(int(fd), SOL_IP, IP_ORIGDSTADDR); err == nil {
+			if ipv6Mreq, err = syscall.GetsockoptIPv6Mreq(int(fd), SOL_IP, SO_ORIGINAL_DST); err == nil {
 				// 实际ipv6Mreq这块内存被填充的是Linux C层面的结构体
 				//struct sockaddr_in {
 				//	sa_family_t    sin_family; /* address family: AF_INET */
