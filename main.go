@@ -65,7 +65,7 @@ func main() {
 			// 关闭dup复制的fd
 			file.Close()
 
-			fmt.Println("原始目标地址：%s:%d", ip.String(), port)
+			fmt.Printf("原始目标地址：%s:%d\n", ip.String(), port)
 			// 关闭socket
 			conn.Close()
 		}
